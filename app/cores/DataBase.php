@@ -25,7 +25,8 @@ class DataBase {
         $this->stmt = $this->pdo->prepare($sql);
     }
 
-    public function bind($param, $value, $type){
+    public function bind($param, $value, $type = null){
+        if(is_null($type)){
             switch(true){
                 case is_int($value):
                     $type = PDO::PARAM_INT;
@@ -40,6 +41,7 @@ class DataBase {
                     $type = PDO::PARAM_STR;
                 break;
             }
+        }
         $this->stmt->bindValue($param, $value, $type);
     }
     

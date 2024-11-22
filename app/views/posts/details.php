@@ -6,6 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h1><?= $data['title'] ?></h1>
+    <h2><?=$data['post']->title?></h2>
+    <p><?=$data['post']->content?></p>
+    
 </body>
 </html>
