@@ -1,16 +1,26 @@
 <?php 
 
-class Pages {
+class Pages extends AbstractController   {
+    private $postModel;
 
     public function __construct() {
-        echo 'Le contrôleur Pages est chargé';
+        $this->postModel = $this->model('Post');
+ 
     }
     
     public function index() {
-        echo 'La page index est affichée';
+        $posts = $this->postModel->getPosts(); 
+    
+        
+        $data = [
+            'title' => 'Welcome',
+            'posts' => $posts
+        ];
+
+        $this->render('index', $data);
     }
 
-    public function about() {
-        echo 'La page about est affichée';
+    public function about($id) {
+        echo $id;
     }
 }
