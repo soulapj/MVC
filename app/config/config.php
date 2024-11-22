@@ -8,3 +8,4 @@ define('DB_NAME', 'mvc');
 
 // autres
 define('URLROOT', 'http://localhost/mvc');
+define('APPROOT', dirname(dirname(__FILE__)));

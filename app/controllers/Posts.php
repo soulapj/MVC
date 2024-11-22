@@ -3,6 +3,7 @@
 class Posts extends AbstractController   {
 //  chaque page est représentée par une méthode spécifique qui appelle une vue spécifique le model si besoin.
     private $postModel;
+
     public function __construct() {
         //  Instanciation du model post pour récupérer les données de la BDD concernant les posts 
         $this->postModel = $this->model('Post');
@@ -11,7 +12,6 @@ class Posts extends AbstractController   {
     public function index(){
         // On appel la méthode getPosts du model Post pour récupérer les posts
         $posts = $this->postModel->getPosts();
-
         // Le tableau data contient les données à envoyer à la vue
         $data = [
             'title' => 'Posts page',
