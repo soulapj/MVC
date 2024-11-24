@@ -17,6 +17,7 @@ class Posts extends AbstractController   {
             'title' => 'Posts page',
             'posts' => $posts
         ];
+        dd($data, $posts);
         //  On appel la méthode render de la class AbstractController pour afficher la vue index
         $this->render('index', $data);
     }

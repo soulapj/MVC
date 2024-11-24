@@ -15,11 +15,13 @@ require_once 'config/config.php';
 
 
 // Helpers
-require_once 'helpers/url_helper.php';
-require_once 'helpers/session_helper.php';
-require_once 'helpers/flash_helper.php';
-require_once 'helpers/dump_helper.php';
+// require_once 'helpers/url_helper.php';
+// require_once 'helpers/session_helper.php';
+// require_once 'helpers/flash_helper.php';
+// require_once 'helpers/dump_helper.php';
 
-// tester avec :
-// glob('helpers/*.php');
-// scandir('helpers');
+// glob retourne un tableau contenant les chemins des fichiers ou dossier correspondant au masque donné
+// __DIR__ est une constante magique qui retourne le chemin absolu du dossier du fichier courant
+foreach (glob(__DIR__ . '/helpers/*.php') as $helperFile) {
+    require_once $helperFile;
+}

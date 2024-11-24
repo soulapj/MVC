@@ -12,7 +12,7 @@ class Pages extends AbstractController   {
         $data = [
             'title' => 'landing Page',
         ];
-  
+
         $this->render('index', $data);
     }
 
