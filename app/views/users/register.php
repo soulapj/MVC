@@ -2,7 +2,7 @@
 
 <div class="container mt-5">
     <h2>S'inscrire</h2>
-    <form method="POST" action="<?php echo URLROOT ?>/auth/register">
+    <form method="POST" action="<?php echo URLROOT ?>/users/register">
         <div class="form-group">
             <label>Nom d'utilisateur</label>
             <input type="text" name="username" class="form-control" >

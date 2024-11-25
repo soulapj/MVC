@@ -57,4 +57,8 @@ class DataBase {
         $this->execute();
         return $this->stmt->fetch(PDO::FETCH_OBJ);
     }
+    public function checkIfExist(){
+        $this->execute();
+        return $this->stmt->rowCount() > 0;
+    }
 }
