@@ -57,6 +57,38 @@ class Users extends AbstractController {
 
     }
     public function login() {
-        $this->render('login');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (empty(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))) {
+                flash('flashEmail', 'Veuillez saisir un email','alert alert-danger'); 
+            }
+
+            elseif (!$this -> userModel ->findUserByEmail($_POST['email'])) {
+                flash('flashEmail', "Cet email n'existe pas",'alert alert-danger');
+            }
+            if (empty(trim($_POST['password']))) {
+                flash('flashPassword', 'Veuillez saisir un mot de passe','alert alert-danger'); 
+            }
+
+            $userExist = $this -> userModel -> findUser($_POST['email']);
+            if (!empty($_POST['password']) && !password_verify(trim($_POST['password']), $userExist -> password)) {
+                flash('flashConfirm2', 'Les mots de passe ne sont pas identiques','alert alert-danger');
+            } 
+            if (empty($_SESSION['flashEmail']) && empty($_SESSION['flashPassword']) && empty($_SESSION['flashConfirm2'])) {   
+                $_SESSION['user_mail'] = $userExist -> email;
+                $_SESSION['user_id'] = $userExist -> id;
+                $_SESSION['username'] = $userExist -> nom;
+                redirect('posts/index');
+            } 
+            else {
+                redirect('users/login');
+            }
+        } else {
+            $this->render('login', []);
+        }
+    }
+
+    public function logout(){
+        session_destroy();
+        redirect('users/login');
     }
 }

@@ -21,4 +21,10 @@ class User {
         }
     }
 
+    public function findUser($email){
+        $this->db->query("SELECT * FROM users WHERE email = :email");
+        $this->db->bind(':email', $email);
+        return $this->db->findOne();
+    }
+
 }
