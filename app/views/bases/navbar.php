@@ -14,19 +14,21 @@
         </ul>
         
         <ul class="navbar-nav ms-auto">
+<?php if(isLoggedIn()){ ?>
           <li class="nav-item">
-              <a class="nav-link" href="#">Bienvenue</a>
+              <a class="nav-link" href="#">Bienvenue <?= $_SESSION['username'] ?></a>
             </li>
           <li class="nav-item">
               <a class="nav-link" href="<?php echo URLROOT; ?>/users/logout">Déconnexion</a>
             </li>
-
+<?php } else { ?>
             <li class="nav-item">
               <a class="nav-link" href="<?php echo URLROOT; ?>/users/register">Inscription</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="<?php echo URLROOT; ?>/users/login">Connexion</a>
             </li>
+<?php } ?>
         </ul>
       </div>
     </div>

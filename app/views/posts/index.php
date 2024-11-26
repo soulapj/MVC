@@ -3,6 +3,9 @@
     <div class="col-md-6">
       <h1>Posts</h1>
     </div>
+    <?php if(!empty($_SESSION['flashAdd'])){
+                flash('flashAdd');
+    } ?>
     <div class="col-md-6">
       <a href="" class="btn btn-primary pull-right">
         <i class="fa fa-pencil"></i> Ajouter un post

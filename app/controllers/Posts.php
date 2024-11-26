@@ -37,4 +37,34 @@ class Posts extends AbstractController   {
         $this->render('details', $data);
     }
 
+    public function addPost(){
+        if ($_SERVER['REQUEST_METHOD'] == "POST"){
+            $data = [
+                'title' => htmlspecialchars(trim($_POST['title'])),
+                'body' => htmlspecialchars(trim($_POST['body'])),
+                'id_user' => $_SESSION['user_id'],
+            ];
+        if (empty($data['title'])) {
+            flash('flashTitle', 'Le titre est vide','alert alert-danger');
+        }
+        if (empty($data['body'])) {
+            flash('flashBody', 'Le contenu est vide','alert alert-danger');
+        }
+        if (empty($_SESSION['flashTitle']) && empty($_SESSION['flashBody'])) {
+            if ($this->postModel->addPost($data)){
+                flash('flashAdd', 'Le post à été bien ajouté', 'alert alert-success');
+                redirect('posts/index');
+            } else {
+                flash('flashFailure', "Le post n'a pas été publié", 'alert alert-danger');
+                redirect('posts/addPost');
+            }
+        } else {
+            redirect('posts/addPost');
+        }
+        } else {
+        $data = [];
+        $this->render('addPost', $data);
+    }
+    }
+
 }

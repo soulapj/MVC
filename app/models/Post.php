@@ -19,4 +19,16 @@ class Post {
         $this->db->bind(':id', $id);
         return $this->db->findOne();
     }
+
+    public function addPost($data){
+        $this->db->query("INSERT INTO posts (title, content, id_user) VALUES (:title, :content, :id_user)");
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':content', $data['body']);
+        $this->db->bind(':id_user', $data['id_user']);
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
