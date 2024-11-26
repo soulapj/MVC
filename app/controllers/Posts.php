@@ -5,9 +5,9 @@ class Posts extends AbstractController   {
     private $postModel;
 
     public function __construct() {
-        if (!isLoggedIn()){
-            redirect('users/login');
-        }
+        // if (!isLoggedIn()){
+        //     redirect('users/login');
+        // }
 
 
         //  Instanciation du model post pour récupérer les données de la BDD concernant les posts 
