@@ -12,7 +12,7 @@
         </div>
         <div class="form-group">
             <label for="body">Contenu: <sup></sup></label>
-            <textarea name="body" class="form-control form-control-lg"><?= strip_tags($data['post']->content) ?></textarea>
+            <textarea name="body" id="body" class="form-control form-control-lg"><?= strip_tags($data['post']->content) ?></textarea>
             <?php if(!empty($_SESSION['flashBody'])){
                 flash('flashBody');
             } ?>

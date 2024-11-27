@@ -6,6 +6,9 @@
     <?php if(!empty($_SESSION['flashAdd'])){
                 flash('flashAdd');
     } ?>
+    <?php if(!empty($_SESSION['flashFailure'])){
+                flash('flashFailure');
+    } ?>
     <div class="col-md-6">
       <a href="<?php echo URLROOT; ?>/posts/addPost" class="btn btn-primary pull-right">
         <i class="fa fa-pencil"></i> Ajouter un post
@@ -19,7 +22,9 @@
       <div class="bg-light p-2 mb-3">
         Publié par <?= htmlspecialchars($post->nom) ?> le <?= $post->dateCreated; ?>
       </div>
-      <p class="card-text"><?= htmlspecialchars($post->content) ?></p>
+      <?php $allowed_tags = '<p><b><i><strong><em><span><ul><ol><li><br><hr>';?>
+      <p class="card-text"><?= strip_tags(htmlspecialchars_decode($post->content), $allowed_tags)  ?></p>
+
        <!-- redirection à faire sur la structure du router : controlerName/methodName/params -->
       <a href="<?php echo URLROOT; ?>/posts/details/<?php echo $post->postId; ?>" class="btn btn-dark">Voir plus</a>
     </div>

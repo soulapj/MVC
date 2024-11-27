@@ -114,10 +114,32 @@ class Posts extends AbstractController   {
                 redirect('posts/update/'.$id);
             }
         }
+        if($post->id_user != $_SESSION['user_id']){
+            redirect('posts/index');
+          }
         $data = [
             'post' => $post,
         ];
         $this->render('updatePost', $data);
     }
+
+    public function delete($id){
+    
+          // Get existing post from model
+          $post = $this->postModel->getPostById($id);
+          
+          // Check for owner
+          if($post->id_user != $_SESSION['user_id']){
+            redirect('posts/index');
+          }
+  
+          if($this->postModel->deletePost($id)){
+            flash('flashAdd', 'Le post a bien été supprimé');
+            redirect('posts/index');
+          } else {
+            flash('flashFailure', 'Le post a bien été supprimé');
+            redirect('posts/index');
+          }
+      }
     
 }

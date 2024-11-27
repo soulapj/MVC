@@ -11,6 +11,11 @@
           <li class="nav-item">
             <a class="nav-link" href="<?php echo URLROOT; ?>/pages/about">A propos</a>
           </li>
+<?php if(isLoggedIn()){ ?>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo URLROOT; ?>/posts/index">Les posts</a>
+          </li>
+<?php } ?>
         </ul>
         
         <ul class="navbar-nav ms-auto">

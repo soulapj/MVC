@@ -5,12 +5,13 @@
 <div class="bg-secondary text-white p-2 mb-3">
     Publié par  
 </div>
-<p><?php echo $data['post']->content; ?></p>
+<?php $allowed_tags = '<p><b><i><strong><em><span><ul><ol><li><br><hr>';?>
+<p class="card-text"><?= strip_tags(htmlspecialchars_decode($data['post']->content), $allowed_tags)  ?></p>
 <?php if($data['post']->id_user == $_SESSION['user_id']) { ?>
 <hr>
 <div class="d-flex justify-content-between">
     <a href="<?php echo URLROOT; ?>/posts/update/<?=$data['post']->id?> " class="btn btn-dark">Modifier</a>
-    <a href="<?php echo URLROOT; ?>/posts/delete" class="btn btn-danger">Supprimer</a>
+    <a href="<?php echo URLROOT; ?>/posts/delete/<?=$data['post']->id?> " class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ce post ?');">Supprimer</a>
 </div>
 <?php } ?>
 
