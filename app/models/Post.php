@@ -9,8 +9,11 @@ class Post {
     }
 
     public function getPosts() {
-        $this->db->query("SELECT * FROM posts");
-
+        $this->db->query('SELECT *, posts.id as postId 
+        FROM posts 
+        JOIN users 
+        ON posts.id_user = users.id 
+        ORDER BY posts.dateCreated DESC');
         return $this->db->findAll();
     }
 
@@ -25,6 +28,29 @@ class Post {
         $this->db->bind(':title', $data['title']);
         $this->db->bind(':content', $data['body']);
         $this->db->bind(':id_user', $data['id_user']);
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function updatePost($dataToUpdate){
+        $clauseSet = [];
+        $parameters = [];
+        foreach($dataToUpdate as $key => $value){
+            if($key !== "id"){
+            $clauseSet[] = "$key = :$key";
+            $parameters[":$key"] = $value;
+            } else {
+                $parameters[":id"] = $value;
+            }
+        }
+        $sql = "UPDATE posts SET " . implode(",", $clauseSet) . " WHERE id = :id";
+        $this->db->query($sql);
+        foreach($parameters as $key => $value){
+            $this->db->bind($key, $value);
+        }
         if($this->db->execute()){
             return true;
         } else {

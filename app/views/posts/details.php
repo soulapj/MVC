@@ -6,11 +6,13 @@
     Publié par  
 </div>
 <p><?php echo $data['post']->content; ?></p>
+<?php if($data['post']->id_user == $_SESSION['user_id']) { ?>
 <hr>
 <div class="d-flex justify-content-between">
-    <a href="" class="btn btn-dark">Modifier</a>
-    <a href="" class="btn btn-danger">Supprimer</a>
+    <a href="<?php echo URLROOT; ?>/posts/update/<?=$data['post']->id?> " class="btn btn-dark">Modifier</a>
+    <a href="<?php echo URLROOT; ?>/posts/delete" class="btn btn-danger">Supprimer</a>
 </div>
+<?php } ?>
 
 
 <div class="comment-section">

@@ -64,7 +64,60 @@ class Posts extends AbstractController   {
         } else {
         $data = [];
         $this->render('addPost', $data);
-    }
+        }
     }
 
+    public function update($id){
+        $post = $this->postModel->getPostById($id);
+    
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $data = [
+                'title' => htmlspecialchars(trim($_POST['title'])),
+                'body' => htmlspecialchars(trim($_POST['body'])),
+                'id' => $id,
+            ];
+    
+            if (!$post) {
+                redirect('posts/index');
+            }
+    
+            // Vérif si les champs sont vides
+            if (empty($data['title'])) {
+                flash('flashTitle', 'Le titre est vide', 'alert alert-danger');
+            }
+            if (empty($data['body'])) {
+                flash('flashBody', 'Le contenu est vide', 'alert alert-danger');
+            }
+    
+            // Vérifier si il n'y à pas d'erreurs 
+            if (!empty($_SESSION['flashTitle']) || !empty($_SESSION['flashBody'])) {
+                $data['post'] = $post; 
+                $this->render('updatePost', $data);
+                return; 
+            }
+    
+            // Vérifier si le user à modifié le post 
+            $dataToUpdate = ['id' => $id];
+            if ($data['title'] !== $post->title) {
+                $dataToUpdate['title'] = $data['title'];
+            }
+            if ($data['body'] !== $post->content) {
+                $dataToUpdate['content'] = $data['body'];
+            }
+    
+            // Appeller la méthode updatePost du model pour mettre à jour le post
+            if ($this->postModel->updatePost($dataToUpdate)) {
+                flash('flashAdd', 'Le post a bien été modifié', 'alert alert-success');
+                redirect('posts/index');
+            } else {
+                flash('flashFail', 'Problème survenu lors de la mise à jour', 'alert alert-danger');
+                redirect('posts/update/'.$id);
+            }
+        }
+        $data = [
+            'post' => $post,
+        ];
+        $this->render('updatePost', $data);
+    }
+    
 }

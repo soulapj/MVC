@@ -7,7 +7,7 @@
                 flash('flashAdd');
     } ?>
     <div class="col-md-6">
-      <a href="" class="btn btn-primary pull-right">
+      <a href="<?php echo URLROOT; ?>/posts/addPost" class="btn btn-primary pull-right">
         <i class="fa fa-pencil"></i> Ajouter un post
       </a>
     </div>
@@ -15,13 +15,13 @@
   <?php foreach($data['posts'] as $post) : ?>
     <div class="card card-body mb-3">
       <!-- ici on affiche avec la syntaxe des objets en PHP car dans la requete on spécifie PDO::FETCH_OBJ -->
-      <h4 class="card-title"><?= $post->title; ?></h4>
+      <h4 class="card-title"><?= htmlspecialchars($post->title) ?></h4>
       <div class="bg-light p-2 mb-3">
-        Publié par 
+        Publié par <?= htmlspecialchars($post->nom) ?> le <?= $post->dateCreated; ?>
       </div>
-      <p class="card-text"><?= $post->content; ?></p>
+      <p class="card-text"><?= htmlspecialchars($post->content) ?></p>
        <!-- redirection à faire sur la structure du router : controlerName/methodName/params -->
-      <a href="<?php echo URLROOT; ?>/posts/details/<?php echo $post->id; ?>" class="btn btn-dark">Voir plus</a>
+      <a href="<?php echo URLROOT; ?>/posts/details/<?php echo $post->postId; ?>" class="btn btn-dark">Voir plus</a>
     </div>
   <?php endforeach; ?>
 <?php require APPROOT . '/views/bases/footer.php'; ?>
