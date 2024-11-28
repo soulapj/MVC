@@ -3,6 +3,7 @@
 class Posts extends AbstractController   {
 //  chaque page est représentée par une méthode spécifique qui appelle une vue spécifique le model si besoin.
     private $postModel;
+    private $commentModel;
 
     public function __construct() {
         // if (!isLoggedIn()){
@@ -12,6 +13,7 @@ class Posts extends AbstractController   {
 
         //  Instanciation du model post pour récupérer les données de la BDD concernant les posts 
         $this->postModel = $this->model('Post');
+        $this->commentModel = $this->model('Comment');
  
     }
     public function index(){
@@ -20,7 +22,8 @@ class Posts extends AbstractController   {
         // Le tableau data contient les données à envoyer à la vue
         $data = [
             'title' => 'Posts page',
-            'posts' => $posts
+            'posts' => $posts,
+          
         ];
         //  On appel la méthode render de la class AbstractController pour afficher la vue index
         $this->render('index', $data);
@@ -32,7 +35,8 @@ class Posts extends AbstractController   {
 
         $data = [
             'title' => 'Posts page',
-            'post' => $post
+            'post' => $post,
+            'comments' => $this->commentModel->getCommentsByPost($id),
         ];
         $this->render('details', $data);
     }
