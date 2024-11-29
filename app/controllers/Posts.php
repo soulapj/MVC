@@ -6,9 +6,9 @@ class Posts extends AbstractController   {
     private $commentModel;
 
     public function __construct() {
-        // if (!isLoggedIn()){
-        //     redirect('users/login');
-        // }
+        if (!isLoggedIn()){
+            redirect('users/login');
+        }
 
 
         //  Instanciation du model post pour récupérer les données de la BDD concernant les posts 
@@ -48,13 +48,8 @@ class Posts extends AbstractController   {
                 'body' => htmlspecialchars(trim($_POST['body'])),
                 'id_user' => $_SESSION['user_id'],
             ];
-        if (empty($data['title'])) {
-            flash('flashTitle', 'Le titre est vide','alert alert-danger');
-        }
-        if (empty($data['body'])) {
-            flash('flashBody', 'Le contenu est vide','alert alert-danger');
-        }
-        if (empty($_SESSION['flashTitle']) && empty($_SESSION['flashBody'])) {
+
+            if(empty($this->validateForm($_POST))){ 
             if ($this->postModel->addPost($data)){
                 flash('flashAdd', 'Le post à été bien ajouté', 'alert alert-success');
                 redirect('posts/index');
@@ -86,15 +81,15 @@ class Posts extends AbstractController   {
             }
     
             // Vérif si les champs sont vides
-            if (empty($data['title'])) {
-                flash('flashTitle', 'Le titre est vide', 'alert alert-danger');
-            }
-            if (empty($data['body'])) {
-                flash('flashBody', 'Le contenu est vide', 'alert alert-danger');
-            }
+            // if (empty($data['title'])) {
+            //     flash('flashTitle', 'Le titre est vide', 'alert alert-danger');
+            // }
+            // if (empty($data['body'])) {
+            //     flash('flashBody', 'Le contenu est vide', 'alert alert-danger');
+            // }
     
             // Vérifier si il n'y à pas d'erreurs 
-            if (!empty($_SESSION['flashTitle']) || !empty($_SESSION['flashBody'])) {
+            if(!empty($this->validateForm($_POST))){ 
                 $data['post'] = $post; 
                 $this->render('updatePost', $data);
                 return; 

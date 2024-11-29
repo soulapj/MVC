@@ -21,19 +21,18 @@ class Comments extends AbstractController
             $data = [
                 'id_user' => $_SESSION['user_id'],
                 'id_post' => $id,
-                'comment' => htmlspecialchars(trim($_POST['body']))
+                'comment' => htmlspecialchars(trim($_POST['comment']))
             ];
-            if (empty($data['comment'])) {
-                flash('flashCommentFail', 'Veuillez entrer un commentaire', 'alert alert-danger');
-                redirect('posts/details/' . $id);
-            } else {
+            if(empty($this->validateForm($_POST))){ 
                 if ($this->commentModel->addComment($data)) {
-                    flash('flashComment', 'Commentaire envoyé avec succès', 'alert alert-success');
+                    flash('flashCommentSuccess', 'Commentaire envoyé avec succès', 'alert alert-success');
                     redirect('posts/details/' . $id);
                 } else {
-                    flash('flashComment', "Erreur lors de l'ajout du commentaire", 'alert alert-danger');
+                    flash('flashCommentSuccess', "Erreur lors de l'ajout du commentaire", 'alert alert-danger');
                     redirect('posts/details/' . $id);
                 }
+            } else {
+                redirect('posts/details/' . $id);
             }
         } else {
             redirect('posts/details/' . $id);
@@ -44,7 +43,7 @@ class Comments extends AbstractController
         if($_SERVER['REQUEST_METHOD']== 'POST'){
             $data = [
                 'id_comment' =>$id,
-                'comment' => htmlspecialchars(trim($_POST['body']))
+                'comment' => htmlspecialchars(trim($_POST['comment']))
             ];
             if(empty($data['comment'])){
                 flash('flashCommentFail','Le commentaire est vide', 'alert alert-danger');

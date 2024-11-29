@@ -50,15 +50,15 @@
 
 <!-- Formulaire pour ajouter un commentaire -->
 <h3 id="title">Ajouter un commentaire</h3>
-<?php if (!empty($_SESSION['flashComment'])) {
-  flash('flashComment');
+<?php if (!empty($_SESSION['flashCommentSuccess'])) {
+  flash('flashCommentSuccess');
 } ?>
 <form id="form" action="<?= URLROOT ?>/comments/add/<?= $data['post']->id ?> " method="POST">
   <div class="form-group">
-    <textarea id="text" name="body" class="form-control"></textarea>
+    <textarea id="text" name="comment" class="form-control"></textarea>
     <input type="hidden" name="postId" value="<?= $data['post']->id ?>">
-    <?php if (!empty($_SESSION['flashCommentFail'])) {
-      flash('flashCommentFail');
+    <?php if (!empty($_SESSION['flashComment'])) {
+      flash('flashComment');
     } ?>
   </div>
   <button id="valid" type="submit" class="btn btn-primary">Commenter</button>
