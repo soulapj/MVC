@@ -17,7 +17,16 @@
 
 
 <div class="comment-section">
-  <h2>Commentaires</h2>
+  <h4>
+    <?php 
+    $countComments = count($data['comments']);
+    echo $countComments === 0
+    ? 'Aucun commentaire'
+    : ($countComments === 1
+    ? '1 commentaire'
+    : $countComments . ' commentaires');
+    ?>
+    </h4>
   <?php foreach ($data['comments'] as $comment) { ?>
     <div class="comment">
       <div class="comment-header">
@@ -32,7 +41,7 @@
       </div>
       <?php if ($comment->id_user == $_SESSION['user_id']) { ?>
         <a href="" class="modifyComment btn btn-primary" id="modifyButton-<?= $comment->id ?>">Modifier</a>
-        <a href="<?php echo URLROOT; ?>/comments/delete/<?= $data['post']->id ?> " class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ce post ?');">Supprimer</a>
+        <a href="<?php echo URLROOT; ?>/comments/delete/<?= $data['post']->id ?>/<?= $comment->id ?> " class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ce post ?');">Supprimer</a>
       <?php } ?>
     </div>
   <?php } ?>
@@ -47,6 +56,7 @@
 <form id="form" action="<?= URLROOT ?>/comments/add/<?= $data['post']->id ?> " method="POST">
   <div class="form-group">
     <textarea id="text" name="body" class="form-control"></textarea>
+    <input type="hidden" name="postId" value="<?= $data['post']->id ?>">
     <?php if (!empty($_SESSION['flashCommentFail'])) {
       flash('flashCommentFail');
     } ?>

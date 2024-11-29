@@ -40,9 +40,35 @@ class Comments extends AbstractController
         }
     }
 
-    public function update($id) {
-            dd($id);
-    }
-
-    public function delete($id) {}
+    public function update($id){
+        if($_SERVER['REQUEST_METHOD']== 'POST'){
+            $data = [
+                'id_comment' =>$id,
+                'comment' => htmlspecialchars(trim($_POST['body']))
+            ];
+            if(empty($data['comment'])){
+                flash('flashCommentFail','Le commentaire est vide', 'alert alert-danger');
+                redirect('posts/details/' . $_POST['postId']);
+            } else {
+                if($this->commentModel->updateComment($data)){
+                    flash('flashComment','Le commentaire a bien été ajouté', 'alert alert-success');
+                    redirect('posts/details/'. $_POST['postId']);
+                } else {
+                flash('flashCommentFail','Erreur lors de la modification', 'alert alert-danger');
+                redirect('posts/details/' . $_POST['postId']);
+                }
+            }
+        }
+        
+        }
+        
+        public function delete($idPost, $idComment){
+            if($this->commentModel->deleteComment($idComment)){
+                flash('flashComment','Le commentaire a bien été supprimé', 'alert alert-success');
+                redirect('posts/details/'. $idPost);
+            } else {
+            flash('flashCommentFail','Erreur lors de la suppression', 'alert alert-danger');
+            redirect('posts/details/' . $idPost);
+            }
+        }
 }
